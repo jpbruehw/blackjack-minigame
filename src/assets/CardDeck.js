@@ -3,6 +3,7 @@ import heart from './suits/heart.svg';
 import spade from './suits/spade.svg';
 import club from './suits/club.svg';
 import diamond from './suits/diamond.svg';
+import cardBack from './suits/card-back.svg'
 
 //const suitImgs = [
 //    {
@@ -22,6 +23,8 @@ import diamond from './suits/diamond.svg';
 //        type: 'diamond'
 //    },
 //]
+
+const dealerHidden = cardBack
 
 const suitImgs = [heart, spade, club, diamond]
 
@@ -52,5 +55,6 @@ const combinations = suits.flatMap((suit) =>
 
 export {
     imgCombos,
-    combinations
+    combinations,
+    dealerHidden
 }

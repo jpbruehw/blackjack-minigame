@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { imgCombos } from './assets/CardDeck'
 import BlackjackButton from './components/BlackjackButton'
 import Hand from './components/Hand'
@@ -88,8 +88,16 @@ function App() {
     const playerValue = calculateHandValue(playerHand)
     const dealerValue = calculateHandValue(dealerHand)
 
+    useEffect(() => {
+        if (playerHand.length === 0 && dealerHand.length === 0){
+            setPlayerHand([getRandomCard(), getRandomCard()])
+            setDealerHand([getRandomCard()])
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newGame])
+
     return (
-        <div className="h-screen w-screen">
+        <div className="h-[100vh] w-[100vw]">
             <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[100%] w-[100%]">
                 <h1 className="text-4xl text-center mb-4">
                     Black Jack
@@ -111,8 +119,8 @@ function App() {
                     }
                 </div>
                 <div className="flex justify-around">
-                    <Hand cards={playerHand} title={"Your Hand"} handValue={playerValue}/>
-                    <Hand cards={playerHand} title={"Dealer Hand"} handValue={dealerValue}/>
+                    <Hand isDealer={false} cards={playerHand} title={"Your Hand"} handValue={playerValue}/>
+                    <Hand isDealer={true} cards={dealerHand} title={"Dealer Hand"} handValue={dealerValue}/>
                 </div>
             </div>
         </div>

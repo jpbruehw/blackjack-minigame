@@ -3,7 +3,7 @@ import { Image } from "@heroui/image";
 
 export default function BlackjackCard({src, rank}) {
     return (
-        <Card className="w-[150px]">
+        <Card className="w-[150px] border-1">
             <CardHeader className="pb-0 pt-2 px-4 flex justify-end">
                 <h4 className="font-bold text-large text-[#49326b]">{rank}</h4>
             </CardHeader>
