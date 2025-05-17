@@ -1,10 +1,11 @@
 import './App.css'
 import { useState } from 'react'
-import { combinations } from './assets/CardDeck'
+import { imgCombos } from './assets/CardDeck'
+import BlackjackButton from './components/BlackjackButton'
+import Hand from './components/Hand'
 
 function App() {
-    // TODO: make create game state
-    const [gameDeck, setGameDeck] = useState(combinations)
+    const [gameDeck, setGameDeck] = useState(imgCombos)
     const [playerHand, setPlayerHand] = useState([])
     const [dealerHand, setDealerHand] = useState([])
     const [gameOver, setGameOver] = useState(false)
@@ -17,6 +18,7 @@ function App() {
 
         const newDeck = gameDeck.filter((_, idx) => idx !== randIdx)
         setGameDeck(newDeck)
+        console.log(gameDeck)
 
         return card
     }
@@ -75,8 +77,16 @@ function App() {
     }
 
     const resetGame = () => {
-        
+        setPlayerHand([])
+        setDealerHand([])
+        setGameOver(false)
+        setResult({type: "", message: ""})
+        setNewGame(false)
+        setGameDeck(imgCombos)
     }
+
+    const playerValue = calculateHandValue(playerHand)
+    const dealerValue = calculateHandValue(dealerHand)
 
     return (
         <div className="h-screen w-screen">
@@ -89,15 +99,21 @@ function App() {
                         <h2 className="text-2xl">{result.message}</h2>
                     </div>
                 )}
-                {!newGame ? (
-                        <>
-                            <button className="" onClick={dealCardToPlayer}>Hit</button>
-                            <button className="" onClick={setPlayerStand}>Stand</button>
-                        </>
-                    ) : (
-                        <button onClick={resetGame}>Reset</button>
-                    )
-                }
+                <div className="flex justify-center gap-2 mt-4">
+                    {!newGame ? (
+                                    <>
+                                        <BlackjackButton  styling="primary" text={"Hit"} onClick={dealCardToPlayer} />
+                                        <BlackjackButton  styling="danger" text={"Stand"} onClick={setPlayerStand} />
+                                    </>
+                                ) : (
+                                    <BlackjackButton styling="secondary" text={"Reset"} onClick={resetGame} />
+                                )
+                    }
+                </div>
+                <div className="flex justify-around">
+                    <Hand cards={playerHand} title={"Your Hand"} handValue={playerValue}/>
+                    <Hand cards={playerHand} title={"Dealer Hand"} handValue={dealerValue}/>
+                </div>
             </div>
         </div>
     )
