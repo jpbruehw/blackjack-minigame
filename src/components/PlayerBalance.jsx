@@ -11,7 +11,7 @@ export default function PlayerBalance({ balance }) {
 
         const countUp = new CountUp(currBalance.current, balance, {
             startVal: prevBalanceRef.current ?? 0,
-            duration: 1,
+            duration: 2,
         });
 
         if (!countUp.error) {

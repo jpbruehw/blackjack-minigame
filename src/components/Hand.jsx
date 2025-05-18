@@ -29,32 +29,30 @@ export default function Hand({ isDealer, cards, title, handValue }) {
                 {title}: <span ref={score}>{handValue}</span>
             </h2>
             <div className="relative flex h-[200px]">
-    {cards.reverse().map((card, index) => (
-        
-        <div
-            key={card.id}
-            className="absolute"
-            style={{
-                left: `${(cards.length - 1 - index) * 50}px`,
-                zIndex: (isDealer && index === 0) ? 1 : index,
-            }}
-        >
-            <BlackjackCard src={card.suit} rank={card.rank} />
-        </div>
-    ))}
-    {(isDealer && cards.length === 1) && (
-        <div
-            className="absolute"
-            style={{
-                left: `${cards.length * 50}px`,
-                zIndex: 0,
-            }}
-        >
-            <HiddenCard />
-        </div>
-    )}
-</div>
-
+                {cards.reverse().map((card, index) => (
+                    <div
+                        key={card.id}
+                        className="absolute"
+                        style={{
+                            left: `${(cards.length - 1 - index) * 50}px`,
+                            zIndex: (isDealer && index === 0) ? 1 : index,
+                        }}
+                    >
+                        <BlackjackCard src={card.suit} rank={card.rank} />
+                    </div>
+                ))}
+                {(isDealer && cards.length === 1) && (
+                    <div
+                        className="absolute"
+                        style={{
+                            left: `${cards.length * 50}px`,
+                            zIndex: 0,
+                        }}
+                    >
+                        <HiddenCard />
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
