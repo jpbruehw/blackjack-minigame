@@ -3,7 +3,7 @@ import { dealerHidden } from "../assets/CardDeck";
 
 export default function HiddenCard() {
     return (
-        <Card className="w-[150px]">
+        <Card className="w-[150px] h-[221px]">
             <CardBody className="p-0">
                 <img
                     alt="playing card"

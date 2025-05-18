@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { imgCombos } from './assets/CardDeck'
 import BlackjackButton from './components/BlackjackButton'
 import Hand from './components/Hand'
+import AlertBar from './components/AlertBar'
 
 function App() {
     const [gameDeck, setGameDeck] = useState(imgCombos)
@@ -11,21 +12,28 @@ function App() {
     const [gameOver, setGameOver] = useState(false)
     const [result, setResult] = useState({type: "", message: ""})
     const [newGame, setNewGame] = useState(false)
+    const [playerBalance, setPlayerBalance] = useState(1000)
+    const [bet, placeBet] = useState(0)
 
-    const getRandomCard =  () => {
-        const randIdx = Math.floor(Math.random() * gameDeck.length)
-        const card = gameDeck[randIdx]
+    const drawCards = (count) => {
+        const deckCopy = [...gameDeck];
+        const drawn = [];
 
-        const newDeck = gameDeck.filter((_, idx) => idx !== randIdx)
-        setGameDeck(newDeck)
-        console.log(gameDeck)
+        for (let i = 0; i < count; i++) {
+            const randIdx = Math.floor(Math.random() * deckCopy.length);
+            drawn.push(deckCopy[randIdx]);
+            deckCopy.splice(randIdx, 1);
+        }
 
-        return card
-    }
+        setGameDeck(deckCopy);
+        return drawn;
+    };
 
     const dealCardToPlayer = () => {
-        const newHand = [...playerHand, getRandomCard()]
-        setPlayerHand(newHand)
+        const [card] = drawCards(1);
+        const newHand = [...playerHand, card];
+        setPlayerHand(newHand);
+        
         const playerValue = calculateHandValue(newHand)
 
         if(playerValue > 21){
@@ -36,17 +44,46 @@ function App() {
         console.log(playerValue)
     }
 
+    const dealerTurn = async () => {
+        let currentHand = [...dealerHand];
+        let currentValue = calculateHandValue(currentHand);
+
+        while (currentValue < 17) {
+            const [card] = drawCards(1);
+            currentHand = [...currentHand, card];
+            setDealerHand(currentHand);
+            currentValue = calculateHandValue(currentHand);
+
+            // simulate delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+        }
+
+        if (currentValue > 21) {
+            handleGameOver({ type: "player", message: "Bust! Player Wins" });
+        } else if (currentValue === 21 && dealerHand.length === 2){
+            if (playerHand === 21 && playerHand.length === 2){
+                handleGameOver({ type: "push", message: "Unlucky! Blackjack tie." });
+            } else {
+                handleGameOver({ type: "dealer", message: "Unlucky! Dealer Blackjak." });
+            }
+        } else if (currentValue === 21) {
+            handleGameOver({ type: "dealer", message: "Dealer hits 21!" });
+        } else {
+            // Compare to player
+            const playerValue = calculateHandValue(playerHand);
+            if (currentValue > playerValue) {
+                handleGameOver({ type: "dealer", message: "Dealer wins!" });
+            } else if (currentValue < playerValue) {
+                handleGameOver({ type: "player", message: "Player wins!" });
+            } else {
+                handleGameOver({ type: "push", message: "It's a tie!" });
+            }
+        }
+    }
+
     const setPlayerStand = () => {
         setGameOver(true)
-        const newHand = [...dealerHand, getRandomCard()]
-        setDealerHand(newHand)
-        const dealerValue = calculateHandValue(newHand)
-        if(dealerValue > 21){
-            handleGameOver({type: "player", message: "Bust! Player Wins"})
-        } else if (dealerValue === 21){
-            //game 0over
-        }
-        console.log(dealerValue)
+        dealerTurn();
     }
 
     const calculateHandValue = (hand) => {
@@ -89,13 +126,24 @@ function App() {
     const dealerValue = calculateHandValue(dealerHand)
 
     useEffect(() => {
-        if (playerHand.length === 0 && dealerHand.length === 0){
-            setPlayerHand([getRandomCard(), getRandomCard()])
-            setDealerHand([getRandomCard()])
-        }
+        if (playerHand.length === 0 && dealerHand.length === 0) {
+                const [playerCard1, playerCard2, dealerCard1] = drawCards(3);
+                setPlayerHand([playerCard1, playerCard2]);
+                setDealerHand([dealerCard1]);
+            }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newGame])
 
+    // betting logic
+    const placeBet = (amount) => {
+        if (amount <= playerBalance && amount > 0) {
+            setPlayerBalance(prev => prev - amount);
+            setBetAmount(amount);
+           // setNewGame(true);
+        } else {
+            alert("Invalid bet amount");
+        }
+    };
     return (
         <div className="h-[100vh] w-[100vw]">
             <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[100%] w-[100%]">
