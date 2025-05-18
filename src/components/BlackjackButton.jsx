@@ -1,8 +1,8 @@
 import { Button } from "@heroui/button";
 
-export default function BlackjackButton({text, onClick, styling}){
+export default function BlackjackButton({text, onClick, styling, isDisabled = false}){
     return (
-            <Button onPress={onClick} color={styling} variant="shadow">
+            <Button onPress={onClick} color={styling} variant="shadow" disabled={isDisabled} >
                 {text}
             </Button>
     )
