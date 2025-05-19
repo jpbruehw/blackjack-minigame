@@ -10,7 +10,7 @@ export default function AlertBar({ color, message, title, setAlertState }){
     }
 
     return (
-        <div className="absolute flex flex-co gap-4">
+        <div className="absolute flex flex-col gap-4 w-[50%] sm:w-[90%]">
             {isVisible && (
                 <Alert 
                     color={color}

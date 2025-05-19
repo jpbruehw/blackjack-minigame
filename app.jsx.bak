@@ -1,0 +1,43 @@
+return (
+        <div className="h-[100vh] w-[100vw] bg-blue-900 border-1 flex flex-col">
+            <div className="h-[70%] w-[70%]">
+                <GridMotion items={gridItems} />
+                <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[50%] w-[50%]">
+                    <h1 className="text-4xl text-center mb-4">
+                        Black Jack
+                    </h1>
+
+                    <div className="flex flex-col items-center justify-center w-full h-[50px] mb-2">
+                        {alertInfo && (
+                            <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
+                        )}
+                    </div>
+                    
+                    <PlayerBalance balance={playerBalance} />
+
+                    {(hasPlacedBet || gameOver) && (
+                        <div className="flex flex-col-reverse lg:flex-row justify-around items-center">
+                            <Hand isDealer={false} cards={playerHand} title={"Your Hand"} handValue={playerValue} />
+                            <Hand isDealer={true} cards={dealerHand} title={"Dealer Hand"} handValue={dealerValue} />
+                        </div>
+                    )}
+
+                    <div className="flex justify-center gap-2 mt-4">
+                        {hasPlacedBet && !gameOver ? (
+                            <>
+                                <BlackjackButton isDisabled={dealerThinking} styling="primary" text={"Hit"} onClick={dealCardToPlayer} />
+                                <BlackjackButton isDisabled={dealerThinking} styling="danger" text={"Stand"} onClick={setPlayerStand} />
+                            </>
+                        ) : (
+                            newGame && gameOver && (
+                                <BlackjackButton styling="secondary" text={"New Round"} onClick={resetGame} />
+                            )
+                        )}
+                    </div>
+
+                    {!hasPlacedBet && !gameOver && (
+                        <BetInput placeBet={placeBet} playerBalance={playerBalance} />
+                    )}
+                </div>
+            </div>
+        </div>

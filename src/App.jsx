@@ -6,6 +6,7 @@ import Hand from './components/Hand'
 import AlertBar from './components/AlertBar'
 import BetInput from './components/BetInput'
 import PlayerBalance from './components/PlayerBalance'
+import Squares from './background/Squares'
 
 function App() {
     const [gameDeck, setGameDeck] = useState(imgCombos);
@@ -48,31 +49,36 @@ function App() {
     }
 
     const dealerTurn = async () => {
-        setDealerThinking(true)
+
+        setDealerThinking(true);
+
         let currentHand = [...dealerHand];
         let currentValueDealer = calculateHandValue(currentHand);
 
+        // dealer draws until reaching at least 17
         while (currentValueDealer < 17) {
             const [card] = drawCards(1);
             currentHand = [...currentHand, card];
             setDealerHand(currentHand);
             currentValueDealer = calculateHandValue(currentHand);
-
-            // simulate delay
             await new Promise(resolve => setTimeout(resolve, 800));
         }
 
-        if (currentValueDealer > 21) {
-            handleGameOver({ type: "player", title: "Dealer Bust", color: "success", message: "Bust! Player Wins" });
-        } else if (currentValueDealer === 21 && currentHand.length === 2) {
-            if (playerValue === 21 && playerHand.length === 2) {
-                handleGameOver({ type: "push", title: "Push", color: "primary", message: "Unlucky! Blackjack tie." });
+        const playerHasBlackjack = playerValue === 21 && playerHand.length === 2;
+        const dealerHasBlackjack = currentValueDealer === 21 && currentHand.length === 2;
+
+        if (dealerHasBlackjack) {
+            if (playerHasBlackjack) {
+                handleGameOver({ type: "push", title: "Push", color: "primary", message: "Both have Blackjack. It's a tie!" });
             } else {
-                handleGameOver({ type: "dealer", title: "Blackjack!", color: "danger", message: "Unlucky! Dealer Blackjack." });
+                handleGameOver({ type: "dealer", title: "Blackjack!", color: "danger", message: "Dealer has Blackjack. You lose." });
             }
-        } else if (currentValueDealer === 21 && playerValue < 21) {
-            handleGameOver({ type: "dealer", title: "Dealer 21!", color: "danger", message: "Unlucky! Dealer hit 21." });
+        } else if (playerHasBlackjack) {
+            handleGameOver({ type: "player", title: "Blackjack!", color: "success", message: "Blackjack! You win." });
+        } else if (currentValueDealer > 21) {
+            handleGameOver({ type: "player", title: "Dealer Bust", color: "success", message: "Bust! Player Wins" });
         } else {
+            // regular comparison
             if (currentValueDealer > playerValue) {
                 handleGameOver({ type: "dealer", title: "House Wins", color: "danger", message: "Unlucky! Dealer wins." });
             } else if (currentValueDealer < playerValue) {
@@ -81,8 +87,9 @@ function App() {
                 handleGameOver({ type: "push", title: "Push", color: "primary", message: "It's a tie!" });
             }
         }
-        setDealerThinking(false)
-    }
+
+        setDealerThinking(false);
+    };
 
     const setPlayerStand = () => {
        // setGameOver(true)
@@ -158,6 +165,7 @@ function App() {
 
             // Natural blackjack and dealer does NOT have a threatening upcard
             if (playerValue === 21 && !isFaceCard && !isAce) {
+                console.log("I GOT HERE")
                 handleGameOver({
                     type: "player",
                     title: "Blackjack!",
@@ -169,7 +177,6 @@ function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hasPlacedBet]);
 
-
     // betting logic
     const placeBet = (amount) => {
         if (amount <= playerBalance && amount > 0) {
@@ -180,43 +187,59 @@ function App() {
         }
     };
     return (
-        <div className="h-[100vh] w-[100vw]">
-            <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[100%] w-[100%]">
-                <h1 className="text-4xl text-center mb-4">
-                    Black Jack
-                </h1>
-                
-                <PlayerBalance balance={playerBalance} />
-                
-                {alertInfo && (
-                    <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
-                )}
-                
-                {(hasPlacedBet || gameOver) && (
-                    <div className="flex justify-around">
-                        <Hand isDealer={false} cards={playerHand} title={"Your Hand"} handValue={playerValue} />
-                        <Hand isDealer={true} cards={dealerHand} title={"Dealer Hand"} handValue={dealerValue} />
+        <>
+        {/* <Squares 
+                speed={0.5} 
+                squareSize={20}
+                direction='diagonal' // up, down, left, right, diagonal
+                borderColor=''
+                hoverFillColor='#222'
+            />
+         */}
+        
+        <div className="h-[100vh] w-[100vw] border-1 flex flex-col">
+            
+            <div className="h-[70%] w-[70%]">
+                <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[50%] w-[50%]">
+                    <h1 className="text-4xl text-center mb-4">
+                        Black Jack
+                    </h1>
+
+                    <div className="flex flex-col items-center justify-center w-full h-[50px] mb-2">
+                        {alertInfo && (
+                            <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
+                        )}
                     </div>
-                )}
                     
-                <div className="flex justify-center gap-2 mt-4">
-                    {hasPlacedBet && !gameOver ? (
-                        <>
-                            <BlackjackButton isDisabled={dealerThinking} styling="primary" text={"Hit"} onClick={dealCardToPlayer} />
-                            <BlackjackButton isDisabled={dealerThinking} styling="danger" text={"Stand"} onClick={setPlayerStand} />
-                        </>
-                    ) : (
-                        newGame && gameOver && (
-                            <BlackjackButton styling="secondary" text={"New Round"} onClick={resetGame} />
-                        )
+                    <PlayerBalance balance={playerBalance} />
+
+                    {(hasPlacedBet || gameOver) && (
+                        <div className="flex flex-col-reverse lg:flex-row justify-around items-center">
+                            <Hand isDealer={false} cards={playerHand} title={"Your Hand"} handValue={playerValue} />
+                            <Hand isDealer={true} cards={dealerHand} title={"Dealer Hand"} handValue={dealerValue} />
+                        </div>
+                    )}
+
+                    <div className="flex justify-center gap-2 mt-4">
+                        {hasPlacedBet && !gameOver ? (
+                            <>
+                                <BlackjackButton isDisabled={dealerThinking} styling="primary" text={"Hit"} onClick={dealCardToPlayer} />
+                                <BlackjackButton isDisabled={dealerThinking} styling="danger" text={"Stand"} onClick={setPlayerStand} />
+                            </>
+                        ) : (
+                            newGame && gameOver && (
+                                <BlackjackButton styling="secondary" text={"New Round"} onClick={resetGame} />
+                            )
+                        )}
+                    </div>
+
+                    {!hasPlacedBet && !gameOver && (
+                        <BetInput placeBet={placeBet} playerBalance={playerBalance} />
                     )}
                 </div>
-                    
-                {!hasPlacedBet && !gameOver && (
-                    <BetInput placeBet={placeBet} playerBalance={playerBalance} />
-                )}
             </div>
         </div>
+        </>
     )
 }
 
