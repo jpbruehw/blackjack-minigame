@@ -1,3 +1,7 @@
+/*
+	Installed from https://reactbits.dev/tailwind/
+*/
+
 import { useRef, useEffect } from "react";
 
 const Squares = ({
@@ -45,7 +49,7 @@ const Squares = ({
           if (
             hoveredSquareRef.current &&
             Math.floor((x - startX) / squareSize) ===
-            hoveredSquareRef.current.x &&
+              hoveredSquareRef.current.x &&
             Math.floor((y - startY) / squareSize) === hoveredSquareRef.current.y
           ) {
             ctx.fillStyle = hoverFillColor;
@@ -57,19 +61,19 @@ const Squares = ({
         }
       }
 
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
-      );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, "#060606");
+      // const gradient = ctx.createRadialGradient(
+      //   canvas.width / 2,
+      //   canvas.height / 2,
+      //   0,
+      //   canvas.width / 2,
+      //   canvas.height / 2,
+      //   Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2,
+      // );
+      // gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
+      // gradient.addColorStop(1, "#060606");
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // ctx.fillStyle = gradient;
+      // ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
     const updateAnimation = () => {
@@ -114,10 +118,10 @@ const Squares = ({
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
 
       const hoveredSquareX = Math.floor(
-        (mouseX + gridOffset.current.x - startX) / squareSize
+        (mouseX + gridOffset.current.x - startX) / squareSize,
       );
       const hoveredSquareY = Math.floor(
-        (mouseY + gridOffset.current.y - startY) / squareSize
+        (mouseY + gridOffset.current.y - startY) / squareSize,
       );
 
       if (
@@ -148,7 +152,7 @@ const Squares = ({
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full border-none block"
+      className="w-screen h-screen border-none block"
     ></canvas>
   );
 };

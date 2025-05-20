@@ -1,3 +1,7 @@
+/*
+	Installed from https://reactbits.dev/tailwind/
+*/
+
 import { useEffect, useRef } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
 
@@ -6,7 +10,7 @@ export default function CountUp({
   from = 0,
   direction = "up",
   delay = 0,
-  duration = 2, // Duration of the animation in seconds
+  duration = 0.08, // Duration of the animation in seconds
   className = "",
   startWhen = true,
   separator = "",

@@ -6,7 +6,6 @@ import Hand from './components/Hand'
 import AlertBar from './components/AlertBar'
 import BetInput from './components/BetInput'
 import PlayerBalance from './components/PlayerBalance'
-import Squares from './background/Squares'
 
 function App() {
     const [gameDeck, setGameDeck] = useState(imgCombos);
@@ -187,60 +186,85 @@ function App() {
         }
     };
     return (
-        <>
-        {/* <Squares 
-                speed={0.5} 
-                squareSize={20}
-                direction='diagonal' // up, down, left, right, diagonal
-                borderColor=''
-                hoverFillColor='#222'
-            />
-         */}
-        
-        <div className="h-[100vh] w-[100vw] border-1 flex flex-col">
-            
-            <div className="h-[70%] w-[70%]">
-                <div className="blackjack-container mx-auto text-white p-4 bg-slate-700 h-[50%] w-[50%]">
-                    <h1 className="text-4xl text-center mb-4">
-                        Black Jack
-                    </h1>
+    <div className="relative w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+      {/* Central game container */}
+      <div className="relative w-[90%] max-w-5xl h-[80%] bg-slate-700/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
 
-                    <div className="flex flex-col items-center justify-center w-full h-[50px] mb-2">
-                        {alertInfo && (
-                            <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
-                        )}
-                    </div>
-                    
-                    <PlayerBalance balance={playerBalance} />
+        {/* Title */}
+        <h1 className="text-4xl font-semibold text-white text-center">
+          Black Jack
+        </h1>
 
-                    {(hasPlacedBet || gameOver) && (
-                        <div className="flex flex-col-reverse lg:flex-row justify-around items-center">
-                            <Hand isDealer={false} cards={playerHand} title={"Your Hand"} handValue={playerValue} />
-                            <Hand isDealer={true} cards={dealerHand} title={"Dealer Hand"} handValue={dealerValue} />
-                        </div>
-                    )}
-
-                    <div className="flex justify-center gap-2 mt-4">
-                        {hasPlacedBet && !gameOver ? (
-                            <>
-                                <BlackjackButton isDisabled={dealerThinking} styling="primary" text={"Hit"} onClick={dealCardToPlayer} />
-                                <BlackjackButton isDisabled={dealerThinking} styling="danger" text={"Stand"} onClick={setPlayerStand} />
-                            </>
-                        ) : (
-                            newGame && gameOver && (
-                                <BlackjackButton styling="secondary" text={"New Round"} onClick={resetGame} />
-                            )
-                        )}
-                    </div>
-
-                    {!hasPlacedBet && !gameOver && (
-                        <BetInput placeBet={placeBet} playerBalance={playerBalance} />
-                    )}
-                </div>
-            </div>
+        {/* Alert bar */}
+        {alertInfo && (
+          <div className="w-full">
+            <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
+          </div>
+        )}
+        <div className="mt-[100px]">
+        {/* Balance */}
+        <div className="w-full flex justify-center">
+          <PlayerBalance balance={playerBalance} />
         </div>
-        </>
-    )
+        <div className="w-full h-[300px]">
+        {/* Hands */}
+        {(hasPlacedBet || gameOver) && (
+          <div className="w-full flex flex-col-reverse lg:flex-row justify-around items-center gap-6 mt-4">
+            <Hand
+              isDealer={false}
+              cards={playerHand}
+              title={"Your Hand"}
+              handValue={playerValue}
+            />
+            <Hand
+              isDealer={true}
+              cards={dealerHand}
+              title={"Dealer Hand"}
+              handValue={dealerValue}
+            />
+          </div>
+        )}
+        </div>
+</div>
+        {/* Action Buttons */}
+        <div className="flex justify-center gap-3 mt-4">
+          {hasPlacedBet && !gameOver ? (
+            <>
+              <BlackjackButton
+                isDisabled={dealerThinking}
+                styling="primary"
+                text="Hit"
+                onClick={dealCardToPlayer}
+              />
+              <BlackjackButton
+                isDisabled={dealerThinking}
+                styling="danger"
+                text="Stand"
+                onClick={setPlayerStand}
+              />
+            </>
+          ) : (
+            newGame &&
+            gameOver && (
+              <BlackjackButton
+                styling="secondary"
+                text="New Round"
+                onClick={resetGame}
+              />
+            )
+          )}
+        </div>
+
+        {/* Betting Input */}
+        {!hasPlacedBet && !gameOver && (
+          <div className="w-full flex justify-center mt-2">
+            <BetInput placeBet={placeBet} playerBalance={playerBalance} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
 }
 
 export default App
