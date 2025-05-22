@@ -9,29 +9,26 @@ export default function PlayerBalance({ balance }) {
     const [fromValue, setFromValue] = useState(0);
     const [animateWin, setAnimateWin] = useState(false);
     
-  useEffect(() => {
-    const prev = prevBalanceRef.current;
+    useEffect(() => {
+        const prev = prevBalanceRef.current;  
 
-    // Skip on first mount
-    if (!hasMounted.current) {
-      hasMounted.current = true;
-      prevBalanceRef.current = balance;
-      return;
-    }
+        if (!hasMounted.current) {
+            hasMounted.current = true;
+            prevBalanceRef.current = balance;
+            return;
+        } 
 
-    // Update countup range
-    setFromValue(prev);
+        setFromValue(prev);   
 
-    // Trigger animation only if balance increased
-    if (balance > prev) {
-      setAnimateWin(true);
-      const timeout = setTimeout(() => setAnimateWin(false), 800);
-      return () => clearTimeout(timeout);
-    }
+        if (balance > prev) {
+            setAnimateWin(true);
+            const timeout = setTimeout(() => setAnimateWin(false), 800);
+            return () => clearTimeout(timeout);
+        } 
 
-    // Save new balance for future comparison
-    prevBalanceRef.current = balance;
-  }, [balance]);
+        prevBalanceRef.current = balance;
+
+    }, [balance]);
 
     return (
         <div
