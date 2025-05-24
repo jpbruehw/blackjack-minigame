@@ -19,6 +19,7 @@ function App() {
     const [playerBalance, setPlayerBalance] = useState(1000);
     const [betAmount, setBetAmount] = useState(0);
     const [dealerThinking, setDealerThinking] = useState(false);
+    const [gameResult, setGameResult] = useState(null);
 
     const drawCards = (count) => {
         const deckCopy = [...gameDeck];
@@ -128,12 +129,18 @@ function App() {
             setPlayerBalance(prev => prev + betAmount);
         }
 
+        if (result.type === 'player') setGameResult('win');
+        else if (result.type === 'dealer') setGameResult('loss');
+        else if (result.type === 'push') setGameResult('push');
+
         setGameOver(true);
         setAlertInfo(result);
-       // setNewGame(true);
         setHasPlacedBet(false);
-    };
 
+        const timeout = setTimeout(() => setGameResult(null), 800);
+        return () => clearTimeout(timeout);
+        //setGameResult(null)
+    };
 
     const resetGame = () => {
         setPlayerHand([]);
@@ -206,7 +213,7 @@ function App() {
         <div className="mt-[100px]">
         {/* Balance */}
         <div className="w-full flex justify-center">
-          <PlayerBalance balance={playerBalance} />
+          <PlayerBalance balance={playerBalance} result={gameResult} />
         </div>
         <div className="w-full h-[300px]">
         {/* Hands */}

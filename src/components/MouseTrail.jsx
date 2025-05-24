@@ -1,82 +1,96 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const MouseTrail = () => {
-  useEffect(() => {
-    const container = document.getElementById("game-container");
-    if (!container) return;
+    const [enabled, setEnabled] = useState(false);
 
-    const dots = [];
-    const mouse = { x: 0, y: 0 };
-    let trailActive = false;
+    const isMobileOrTablet = () => window.innerWidth <= 1024;
 
-    class Dot {
-      constructor() {
-        this.x = 0;
-        this.y = 0;
-        this.node = document.createElement('div');
-        this.node.className = 'mouse-trail';
-        this.node.style.display = 'none'; // initially hidden
-        container.appendChild(this.node);
-      }
+    useEffect(() => {
+        const check = () => {
+            const shouldDisable = isMobileOrTablet();
+            setEnabled(!shouldDisable);
+        };
 
-      draw() {
-        // Slight offset to southeast (+8px)
-        this.node.style.left = (this.x + 10) + 'px';
-        this.node.style.top = (this.y + 15) + 'px';
-      }
+        check();
 
-      show() {
-        this.node.style.display = 'block';
-      }
-    }
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
 
-    for (let i = 0; i < 12; i++) {
-      dots.push(new Dot());
-    }
+    useEffect(() => {
+        if (!enabled) return;
 
-    function draw() {
-      if (!trailActive) return;
+        const container = document.getElementById("game-container");
+        if (!container) return;
 
-      let x = mouse.x;
-      let y = mouse.y;
+        const dots = [];
+        const mouse = { x: 0, y: 0 };
+        let trailActive = false;
+        class Dot {
+            constructor() {
+                this.x = 0;
+                this.y = 0;
+                this.node = document.createElement('div');
+                this.node.className = 'mouse-trail';
+                this.node.style.display = 'none';
+                container.appendChild(this.node);
+            }
 
-      dots.forEach((dot) => {
-        dot.x += (x - dot.x) * 0.1;
-        dot.y += (y - dot.y) * 0.1;
-        dot.draw();
-        x = dot.x;
-        y = dot.y;
-      });
-    }
+            draw() {
+                this.node.style.left = (this.x + 10) + 'px';
+                this.node.style.top = (this.y + 15) + 'px';
+            }
 
-    const mouseMoveHandler = (event) => {
-      const rect = container.getBoundingClientRect();
-      mouse.x = event.clientX - rect.left;
-      mouse.y = event.clientY - rect.top;
+            show() {
+                this.node.style.display = 'block';
+            }
+        }
 
-      if (!trailActive) {
-        trailActive = true;
-        dots.forEach(dot => dot.show());
-      }
-    };
+        for (let i = 0; i < 12; i++) {
+            dots.push(new Dot());
+        }
 
-    container.addEventListener('mousemove', mouseMoveHandler);
+        function draw() {
+            if (!trailActive) return;   
+            let x = mouse.x;
+            let y = mouse.y;
 
-    function animate() {
-      draw();
-      requestAnimationFrame(animate);
-    }
+            dots.forEach((dot) => {
+                dot.x += (x - dot.x) * 0.1;
+                dot.y += (y - dot.y) * 0.1;
+                dot.draw();
+                x = dot.x;
+                y = dot.y;
+            });
+        }
 
-    animate();
+        const mouseMoveHandler = (event) => {
+            const rect = container.getBoundingClientRect();
+            mouse.x = event.clientX - rect.left;
+            mouse.y = event.clientY - rect.top;
 
-    // Cleanup
-    return () => {
-      container.removeEventListener('mousemove', mouseMoveHandler);
-      dots.forEach(dot => dot.node.remove());
-    };
-  }, []);
+            if (!trailActive) {
+                trailActive = true;
+                dots.forEach(dot => dot.show());
+            }
+        };
 
-  return null;
+        container.addEventListener('mousemove', mouseMoveHandler);
+
+        function animate() {
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        return () => {
+            container.removeEventListener('mousemove', mouseMoveHandler);
+            dots.forEach(dot => dot.node.remove());
+        };
+    }, [enabled]);
+    // return null since we are not actually returing a dom element
+    return null;
 };
 
 export default MouseTrail;
