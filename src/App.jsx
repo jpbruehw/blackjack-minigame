@@ -132,13 +132,14 @@ function App() {
         if (result.type === 'player') setGameResult('win');
         else if (result.type === 'dealer') setGameResult('loss');
         else if (result.type === 'push') setGameResult('push');
-
+        console.log("RES TYPE 0: ", result.type)
+        console.log("RES TYPE: ", gameResult)
         setGameOver(true);
         setAlertInfo(result);
         setHasPlacedBet(false);
 
-        const timeout = setTimeout(() => setGameResult(null), 800);
-        return () => clearTimeout(timeout);
+        //const timeout = setTimeout(() => setGameResult(null), 800);
+        //return () => clearTimeout(timeout);
         //setGameResult(null)
     };
 
@@ -150,6 +151,7 @@ function App() {
         setNewGame(false);
         setGameDeck(imgCombos);
         setBetAmount(0);
+        setGameResult(null)
     };
 
     const playerValue = calculateHandValue(playerHand)

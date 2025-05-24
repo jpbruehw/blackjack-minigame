@@ -12,5 +12,6 @@
     position: absolute;
     height: 20px; width: 20px;
     background-image: url('/1.png');
-
+    z-index: 9999;
+    pointer-events: none;
 }

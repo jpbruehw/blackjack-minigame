@@ -8,6 +8,27 @@ export default function PlayerBalance({ balance, result }) {
 
     const [fromValue, setFromValue] = useState(0);
     const [resultAnimation, setResultAnimation] = useState("")
+
+    const animations = {
+        win: "animate-winShake",
+        loss: "animate-lossShake",
+        push: "animate-pushShake",
+    };
+
+    const bgColors = {
+    win: "bg-green-200 animate-bgSwoosh",
+    loss: "bg-red-200 animate-bgSwoosh",
+    push: "bg-blue-200 animate-bgSwoosh",
+    default: "bg-white",
+    };
+
+    const borderColors = {
+        win: "border-4 border-green-900",
+        loss: "border-4 border-red-900",
+        push: "border-4 border-blue-900",
+        default: "border-4 border-transparent",
+    };
+
     
     useEffect(() => {
         const prev = prevBalanceRef.current;  
@@ -22,38 +43,26 @@ export default function PlayerBalance({ balance, result }) {
         
         prevBalanceRef.current = balance;
 
-        // if (balance > prev) {
-        //     setAnimateWin(true);
-        //     const timeout = setTimeout(() => setAnimateWin(false), 800);
-        //     return () => clearTimeout(timeout);
-        // } else if (prev < balance){
-        //     setAnimateLoss(true)
-        //     const timeout = setTimeout(() => setAnimateLoss(false), 800);
-        //     return () => clearTimeout(timeout);
-        // } else {
-        //     setAnimatePush(true)
-        //     const timeout = setTimeout(() => setAnimatePush(false), 800);
-        //     return () => clearTimeout(timeout);
-        // }
-
     }, [balance]);
+
+
 
     useEffect(() => {
         if (!result) return;
 
-        let animation = "";
-        if (result === "win") animation = "border-green-900 bg-green-500 animate-winShake";
-        else if (result === "loss") animation = "border-red-900 bg-red-500 animate-lossShake";
-        else if (result === "push") animation = "border-yellow-900 bg-yellow-500 animate-pushShake";
+        setResultAnimation(animations[result] || "");
 
-        setResultAnimation(animation);
-        const timeout = setTimeout(() => setResultAnimation("border-transparent"), 800);
+        const timeout = setTimeout(() => setResultAnimation(""), 800);
         return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [result]);
 
     return (
         <div
-            className={`flex flex-col justify-center items-center bg-white rounded-md h-[50px] transition-all duration-300 border-4 shadow-md ${resultAnimation}`}
+            className={`flex flex-col justify-center items-center rounded-md h-[50px] shadow-md transition-all duration-200 
+            ${bgColors[result] || bgColors.default} 
+            ${borderColors[result] || borderColors.default} 
+            ${resultAnimation}`}
         >
             <GradientText
                 animationSpeed={4}

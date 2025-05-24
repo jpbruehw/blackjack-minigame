@@ -27,13 +27,31 @@ export default {
           '50%': { transform: 'translateX(-5px)' },
           '75%': { transform: 'translateX(5px)' },
           '100%': { transform: 'translateX(0)' },
-        }
+        },
+        bgSwoosh: {
+          '0%': {
+            opacity: '1',
+            transform: 'scale(1)',
+            filter: 'blur(0px)',
+          },
+          '50%': {
+            opacity: '0.6',
+            transform: 'scale(1.05)',
+            filter: 'blur(2px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'scale(1)',
+            filter: 'blur(0px)',
+          },
+        },
       },
       animation: {
         gradient: 'gradient 6s linear infinite',
         winShake: 'winShake 0.8s ease-in-out',
         pushShake: 'pushShake 0.8s ease-in-out',
-        lossShake: 'winshake 0.15s ease-in-out infinite'
+        lossShake: 'winShake 0.15s ease-in-out infinite',
+        bgSwoosh: 'bgSwoosh 1s ease-in-out'
       },
     },
   },
