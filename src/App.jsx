@@ -6,6 +6,7 @@ import Hand from './components/Hand'
 import AlertBar from './components/AlertBar'
 import BetInput from './components/BetInput'
 import PlayerBalance from './components/PlayerBalance'
+import MouseTrail from './components/MouseTrail'
 
 function App() {
     const [gameDeck, setGameDeck] = useState(imgCombos);
@@ -188,7 +189,8 @@ function App() {
     return (
     <div className="relative w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Central game container */}
-      <div className="blackjack-container relative w-[90%] max-w-5xl h-[80%] bg-slate-700/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
+      <MouseTrail />
+      <div id="game-container" className="blackjack-container relative w-[90%] max-w-5xl h-[80%] bg-slate-700/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
 
         {/* Title */}
         <h1 className="text-4xl font-semibold text-white text-center">
