@@ -1,0 +1,6 @@
+1. add transitions to the main components
+2. adjust the layout to work properly on mobile
+3. adjust the banner messages that get displayed when a hand ends
+4. adjust the speed of the chips following
+5. clean the code up
+6. Adjust the bet input component

@@ -14,7 +14,7 @@ export default function BetInput({ placeBet, playerBalance }) {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center gap-2 w-full">
+        <div className="flex flex-col justify-center items-center w-[250px] border-slate-500 border-4 gap-4 rounded-md p-4 bg-white/90 shadow-lg">
             <Input
                 label="Enter Bet"
                 type="number"
@@ -23,10 +23,13 @@ export default function BetInput({ placeBet, playerBalance }) {
                 variant="underlined"
                 value={amount}
                 step={50}
+                size="lg"
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-[150px] mb-2"
+                classNames={{
+                    inputWrapper: "after:bg-slate-600 border-b-slate-300 hover:border-b-slate-400"
+                }}
             />
-            <BlackjackButton styling="default" text="Place Bet" onClick={handleClick} />
+            <BlackjackButton className="border-slate-500 border-1" styling="default" text="Place Bet" onClick={handleClick} />
         </div>
     );
 }
