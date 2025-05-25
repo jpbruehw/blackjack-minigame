@@ -3,4 +3,5 @@
 3. adjust the banner messages that get displayed when a hand ends
 4. adjust the speed of the chips following
 5. clean the code up
-6. Adjust the bet input component
+6. Adjust the bet input component -> done
+7. add blackjack logo to top to replace plain text
