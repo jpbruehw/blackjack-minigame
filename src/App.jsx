@@ -21,6 +21,9 @@ function App() {
     const [betAmount, setBetAmount] = useState(0);
     const [dealerThinking, setDealerThinking] = useState(false);
     const [gameResult, setGameResult] = useState(null);
+    // const [showHands, setShowHands] = useState(false);
+    // const [handAnimationClass, setHandAnimationClass] = useState("");
+
 
     const drawCards = (count) => {
         const deckCopy = [...gameDeck];
@@ -93,6 +96,22 @@ function App() {
         setDealerThinking(false);
     };
 
+  // useEffect(() => {
+  //   if (hasPlacedBet || gameOver) {
+  //     setShowHands(true);
+  //     setHandAnimationClass("fadeIn"); // your CSS class
+  //   } else {
+  //     setHandAnimationClass("fadeOut");
+
+  //     const timeout = setTimeout(() => {
+  //       setShowHands(false); // unmount after animation
+  //     }, 1500); // must match animation duration
+
+  //     return () => clearTimeout(timeout);
+  //   }
+  // }, [hasPlacedBet, gameOver]);
+
+    
     const setPlayerStand = () => {
        // setGameOver(true)
         dealerTurn();
@@ -200,31 +219,27 @@ function App() {
     <div className="relative w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Central game container */}
       <MouseTrail />
-      <div id="game-container" className="blackjack-container relative w-[90%] max-w-5xl h-[80%] bg-slate-700/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
-
+      <div id="game-container" className="blackjack-container w-[40%] max-w-5xl h-[80%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
         {/* Title 
         
         adjust stylng
         */}
-        <div>
           <Header />
-        </div>
 
         {/* Alert bar */}
         {alertInfo && (
-          <div className="w-full">
+          <div className="w-full flex flex-col items-center justify-center h-[30px] mt-[15px]">
             <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
           </div>
         )}
-        <div className="mt-[100px]">
         {/* Balance */}
-        <div className="w-full flex justify-center">
+        <div className={`flex flex-col items-center justify-center mt-[50px] ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
           <PlayerBalance balance={playerBalance} result={gameResult} />
         </div>
-        <div className="w-full h-[300px]">
+
         {/* Hands */}
         {(hasPlacedBet || gameOver) && (
-          <div className="w-full flex flex-col-reverse lg:flex-row justify-around items-center gap-6 mt-4">
+          <div className="w-full flex flex-col-reverse lg:flex-row justify-between items-center mt-4 animate-fadeIn">
             <Hand
               isDealer={false}
               cards={playerHand}
@@ -239,8 +254,6 @@ function App() {
             />
           </div>
         )}
-        </div>
-</div>
         {/* Action Buttons */}
         <div className="flex justify-center gap-3 mt-4">
           {hasPlacedBet && !gameOver ? (
@@ -272,14 +285,13 @@ function App() {
 
         {/* Betting Input */}
         {!hasPlacedBet && !gameOver && (
-          <div className="w-full flex justify-center mt-2">
+          <div className="w-full flex justify-center mt-[5vh] animate-slideUp">
             <BetInput placeBet={placeBet} playerBalance={playerBalance} />
           </div>
         )}
       </div>
     </div>
   );
-
 }
 
 export default App

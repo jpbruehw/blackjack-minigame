@@ -59,7 +59,7 @@ export default function PlayerBalance({ balance, result }) {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center rounded-md h-[50px] shadow-md
+            className={`flex flex-col justify-center items-center rounded-md h-[50px] w-[200px] shadow-md
             ${bgColors[result] || bgColors.default} 
             ${borderColors[result] || borderColors.default} 
             ${resultAnimation}`}

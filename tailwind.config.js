@@ -45,13 +45,33 @@ export default {
             filter: 'blur(0px)',
           },
         },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideDown: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(40px)" },
+        }
       },
       animation: {
         gradient: 'gradient 6s linear infinite',
         winShake: 'winShake 0.8s ease-in-out',
         pushShake: 'pushShake 0.8s ease-in-out',
         lossShake: 'winShake 0.15s ease-in-out infinite',
-        bgSwoosh: 'bgSwoosh 1s ease-in-out'
+        bgSwoosh: 'bgSwoosh 1s ease-in-out',
+        fadeIn: "fadeIn 1.5s ease-in forwards",
+        fadeOut: "fadeOut 1.5s ease-in forwards",
+        slideUp: "slideUp 0.75s ease-in forwards",
+        slideDown: "slideDown 0.5s ease-in forwards",
       },
     },
   },
