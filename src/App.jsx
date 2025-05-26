@@ -202,14 +202,13 @@ function App() {
       <MouseTrail />
       <div id="game-container" className="blackjack-container relative w-[90%] max-w-5xl h-[80%] bg-slate-700/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
 
-        {/* Title */}
+        {/* Title 
+        
+        adjust stylng
+        */}
         <div>
           <Header />
         </div>
-        
-        <h1 className="text-4xl font-semibold text-white text-center">
-          Black Jack
-        </h1>
 
         {/* Alert bar */}
         {alertInfo && (

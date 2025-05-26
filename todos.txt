@@ -4,4 +4,6 @@
 4. adjust the speed of the chips following
 5. clean the code up
 6. Adjust the bet input component -> done
-7. add blackjack logo to top to replace plain text
+7. add blackjack logo to top to replace plain text -> done
+8. adjust blackjack logo styling
+9. adjust bet input button color

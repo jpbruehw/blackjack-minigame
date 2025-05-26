@@ -7,7 +7,7 @@ const Header = () => {
                 isBlurred
                 alt="Blackjack Game Header"
                 src="/header.svg"
-                width={200}
+                width={300}
             />
         </div>
     )
