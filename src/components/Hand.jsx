@@ -25,14 +25,14 @@ export default function Hand({ isDealer, cards, title, handValue }) {
 
     return (
         <div className="p-4">
-            <h2 className="text-2xl mb-2">
+            <h2 className="text-2xl mb-2 text-white">
                 {title}: <span ref={score}>{handValue}</span>
             </h2>
-            <div className="relative flex h-[200px]">
+            <div className="relative h-[200px] min-w-[200px] flex">
                 {cards.reverse().map((card, index) => (
                     <div
                         key={card.id}
-                        className="absolute"
+                        className="absolute animate-slideIn"
                         style={{
                             left: `${(cards.length - 1 - index) * 50}px`,
                             zIndex: (isDealer && index === 0) ? 1 : index,

@@ -60,6 +60,10 @@ export default {
         slideDown: {
           "0%": { transform: "translateY(0)" },
           "100%": { transform: "translateY(40px)" },
+        },
+        slideIn: {
+          '0%': { transform: 'translateY(-20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
         }
       },
       animation: {
@@ -72,6 +76,7 @@ export default {
         fadeOut: "fadeOut 1.5s ease-in forwards",
         slideUp: "slideUp 0.75s ease-in forwards",
         slideDown: "slideDown 0.5s ease-in forwards",
+        slideIn: 'slideIn 0.3s ease-in forwards'
       },
     },
   },

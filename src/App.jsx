@@ -283,6 +283,7 @@ function App() {
           )}
         </div>
 
+
         {/* Betting Input */}
         {!hasPlacedBet && !gameOver && (
           <div className="w-full flex justify-center mt-[5vh] animate-slideUp">

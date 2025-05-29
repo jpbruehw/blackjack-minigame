@@ -66,6 +66,7 @@ export default function PlayerBalance({ balance, result }) {
         >
             <GradientText
                 animationSpeed={4}
+               // className="bg-transparent"
             >
                 <span className="px-12 font-bold text-4xl hover:cursor-default ">
                     <CountUp from={fromValue} to={balance} separator="," />
