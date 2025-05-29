@@ -2,12 +2,12 @@ import { Image } from "@heroui/image";
 
 const Header = () => {
     return (
-        <div className="">
+        <div className="md:w-[300px] w-[80%]">
             <Image 
                 isBlurred
                 alt="Blackjack Game Header"
                 src="/header.svg"
-                width={300}
+                //width={200}
             />
         </div>
     )

@@ -24,11 +24,11 @@ export default function Hand({ isDealer, cards, title, handValue }) {
     }, [handValue]);
 
     return (
-        <div className="p-4">
+        <div className="p-4 mb-[100px] h:mb-0">
             <h2 className="text-2xl mb-2 text-white">
                 {title}: <span ref={score}>{handValue}</span>
             </h2>
-            <div className="relative h-[200px] min-w-[200px] flex">
+            <div className="relative h-[75px] w-[75px] md:h-[200px] md:min-w-[200px] flex">
                 {cards.reverse().map((card, index) => (
                     <div
                         key={card.id}

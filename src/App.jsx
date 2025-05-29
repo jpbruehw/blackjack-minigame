@@ -216,10 +216,10 @@ function App() {
         }
     };
     return (
-    <div className="relative w-screen h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+    <div className="relative w-screen h-screen flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Central game container */}
       <MouseTrail />
-      <div id="game-container" className="blackjack-container w-[40%] max-w-5xl h-[80%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center p-6 gap-4 border border-slate-600">
+      <div id="game-container" className="blackjack-container overflow-y-auto md:overflow-hidden w-[90%] md:w-[70%] max-w-5xl h-full md:h-[90%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center md:p-6 p-2 gap-4 border-slate-600">
         {/* Title 
         
         adjust stylng
@@ -239,7 +239,7 @@ function App() {
 
         {/* Hands */}
         {(hasPlacedBet || gameOver) && (
-          <div className="w-full flex flex-col-reverse lg:flex-row justify-between items-center mt-4 animate-fadeIn">
+          <div className="w-full flex flex-col-reverse lg:flex-row justify-between items-center mt-2 md:mt-4 md:max-w-[60%] animate-fadeIn">
             <Hand
               isDealer={false}
               cards={playerHand}
