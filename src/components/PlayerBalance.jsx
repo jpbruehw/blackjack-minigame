@@ -59,7 +59,7 @@ export default function PlayerBalance({ balance, result }) {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center rounded-md h-[50px] w-[200px] shadow-md
+            className={`flex flex-col justify-center items-center rounded-md h-[70px] w-[80%] md:w-[200px] shadow-md
             ${bgColors[result] || bgColors.default} 
             ${borderColors[result] || borderColors.default} 
             ${resultAnimation}`}
@@ -68,7 +68,7 @@ export default function PlayerBalance({ balance, result }) {
                 animationSpeed={4}
                // className="bg-transparent"
             >
-                <span className="px-12 font-bold text-4xl hover:cursor-default ">
+                <span className="font-bold text-4xl hover:cursor-default ">
                     <CountUp from={fromValue} to={balance} separator="," />
                 </span>
             </GradientText>

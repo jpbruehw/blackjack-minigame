@@ -58,6 +58,7 @@ function App() {
         setDealerThinking(true);
 
         let currentHand = [...dealerHand];
+       // let currentHand = dealerHand
         let currentValueDealer = calculateHandValue(currentHand);
 
         // dealer draws until reaching at least 17
@@ -96,22 +97,6 @@ function App() {
         setDealerThinking(false);
     };
 
-  // useEffect(() => {
-  //   if (hasPlacedBet || gameOver) {
-  //     setShowHands(true);
-  //     setHandAnimationClass("fadeIn"); // your CSS class
-  //   } else {
-  //     setHandAnimationClass("fadeOut");
-
-  //     const timeout = setTimeout(() => {
-  //       setShowHands(false); // unmount after animation
-  //     }, 1500); // must match animation duration
-
-  //     return () => clearTimeout(timeout);
-  //   }
-  // }, [hasPlacedBet, gameOver]);
-
-    
     const setPlayerStand = () => {
        // setGameOver(true)
         dealerTurn();
@@ -216,10 +201,10 @@ function App() {
         }
     };
     return (
-    <div className="relative w-screen h-screen flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
+    <div className="relative w-screen h-screen  flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Central game container */}
       <MouseTrail />
-      <div id="game-container" className="blackjack-container overflow-y-auto md:overflow-hidden w-[90%] md:w-[70%] max-w-5xl h-full md:h-[90%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center md:p-6 p-2 gap-4 border-slate-600">
+      <div id="game-container" className="blackjack-container overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl h-full md:h-[100%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center md:p-6 p-2 gap-2 border-slate-600">
         {/* Title 
         
         adjust stylng
@@ -233,13 +218,13 @@ function App() {
           </div>
         )}
         {/* Balance */}
-        <div className={`flex flex-col items-center justify-center mt-[50px] ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
+        <div className={`flex flex-col items-center justify-center w-full md:mb-[20px] ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
           <PlayerBalance balance={playerBalance} result={gameResult} />
         </div>
 
         {/* Hands */}
         {(hasPlacedBet || gameOver) && (
-          <div className="w-full flex flex-col-reverse lg:flex-row justify-between items-center mt-2 md:mt-4 md:max-w-[60%] animate-fadeIn">
+          <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-4 md:w-full xl:max-w-[60%] animate-fadeIn">
             <Hand
               isDealer={false}
               cards={playerHand}
@@ -255,7 +240,7 @@ function App() {
           </div>
         )}
         {/* Action Buttons */}
-        <div className="flex justify-center gap-3 mt-4">
+        <div className="flex justify-center gap-8">
           {hasPlacedBet && !gameOver ? (
             <>
               <BlackjackButton
