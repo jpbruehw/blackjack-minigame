@@ -241,7 +241,7 @@ function App() {
                 {/* Central game container */}
                 <div id="game-container" className={`blackjack-container transform-gpu flex flex-col justify-center items-center ${(isSmallScreen && !hasPlacedBet && !newGame) ? "animate-shrinkHeight md:animate-none md:h-full" : "animate-expandHeight md:animate-none"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] max-h-[900px] max-w-5xl md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl md:p-6 p-2 gap-2 border-slate-600`}>
                     {/* Alert bar */} 
-                    {alertInfo && (
+                    {(alertInfo && !isSmallScreen) (
                         <AlertBar {...alertInfo} setAlertState={setAlertInfo} className={isSmallScreen ? "mt-[50px]" : "mt-0"}/>
                     )}
 
