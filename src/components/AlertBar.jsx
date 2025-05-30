@@ -10,16 +10,14 @@ export default function AlertBar({ color, message, title, setAlertState }){
     }
 
     return (
-        <div className="flex flex-col gap-4 w-[50%] sm:w-[90%]">
-            {isVisible && (
-                <Alert 
-                    color={color}
-                    description={message}
-                    title={title}
-                    variant="solid"
-                    onClose={() => handleClose()}
-                />
-            )}
+        <div className={`w-full mb-2 md:w-[60%] md:mb-0 flex flex-col items-center justify-center h-[50px] ${isVisible && "animate-slideIn"}`}>
+            <Alert 
+                color={color}
+                description={message}
+                title={title}
+                variant="solid"
+                onClose={() => handleClose()}
+            />
         </div>
     )
 }

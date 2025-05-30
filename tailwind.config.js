@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xxl': "2000px"
+      },
       keyframes: {
         gradient: {
           '0%': { backgroundPosition: '0% 50%' },
@@ -76,7 +79,8 @@ export default {
         fadeOut: "fadeOut 1.5s ease-in forwards",
         slideUp: "slideUp 0.75s ease-in forwards",
         slideDown: "slideDown 0.5s ease-in forwards",
-        slideIn: 'slideIn 0.3s ease-in forwards'
+        slideIn: 'slideIn 0.3s ease-in forwards',
+        fastFadeOut: "fadeOut 0.5s ease-in forwards",
       },
     },
   },

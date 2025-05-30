@@ -25,9 +25,9 @@ export default function Hand({ isDealer, cards, title, handValue }) {
     }, [handValue]);
 
     useEffect(() => {
-        // Detect if screen is md or larger
+        // detect if screen is md or larger
         const handleResize = () => {
-            setIsMediumUp(window.innerWidth >= 768); // Tailwind md breakpoint
+            setIsMediumUp(window.innerWidth >= 768);
         };
 
         handleResize();
@@ -60,12 +60,11 @@ export default function Hand({ isDealer, cards, title, handValue }) {
                                 zIndex: (() => {
                                                 if (isDealer && index === 0){
                                                     return 1
-                                                
                                                 } else if (!stackRight) {
-                                                  // Reverse zIndex so first card is on top
-                                                  return displayCards.length - 1 - index;
+                                                  // reverse zIndex so first card is on top
+                                                    return displayCards.length - 1 - index;
                                                 } else {
-                                                  return index;
+                                                    return index;
                                                 }
                                             })(),
                             }}

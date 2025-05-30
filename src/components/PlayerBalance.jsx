@@ -29,7 +29,6 @@ export default function PlayerBalance({ balance, result }) {
         default: "border-2 border-slate-500",
     };
 
-    
     useEffect(() => {
         const prev = prevBalanceRef.current;  
 
@@ -45,8 +44,6 @@ export default function PlayerBalance({ balance, result }) {
 
     }, [balance]);
 
-
-
     useEffect(() => {
         if (!result) return;
 
@@ -59,7 +56,7 @@ export default function PlayerBalance({ balance, result }) {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center rounded-md h-[70px] w-[80%] md:w-[200px] shadow-md
+            className={`flex flex-col justify-center items-center rounded-md h-[70px] w-[100%] md:w-[200px] shadow-md
             ${bgColors[result] || bgColors.default} 
             ${borderColors[result] || borderColors.default} 
             ${resultAnimation}`}

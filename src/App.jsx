@@ -21,9 +21,27 @@ function App() {
     const [betAmount, setBetAmount] = useState(0);
     const [dealerThinking, setDealerThinking] = useState(false);
     const [gameResult, setGameResult] = useState(null);
-    // const [showHands, setShowHands] = useState(false);
-    // const [handAnimationClass, setHandAnimationClass] = useState("");
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+// const drawCards = (count) => {
+//     const deckCopy = [...gameDeck];
+//     const drawn = [];   
+//     while (drawn.length < count && deckCopy.length > 0) {
+//         const randIdx = Math.floor(Math.random() * deckCopy.length);
+//         const card = deckCopy[randIdx];   
+        
+//         const isDuplicate = drawn.some((c) => c.id === card.id);
+        
+//         if (isDuplicate) {
+//             console.log("duplicate found")
+//             continue;
+//         } 
+//         drawn.push(card);
+//         deckCopy.splice(randIdx, 1); // Remove from deck
+//     }   
+//     setGameDeck(deckCopy);
+//     return drawn;
+// };
 
     const drawCards = (count) => {
         const deckCopy = [...gameDeck];
@@ -40,33 +58,70 @@ function App() {
     };
 
     const dealCardToPlayer = () => {
-        const [card] = drawCards(1);
+        let card;
+        let attempts = 0;
+        const maxAttempts = 10; // prevent infinite loop in edge cases
+
+        while (attempts < maxAttempts) {
+            [card] = drawCards(1);
+            const alreadyInHand = playerHand.some(c => c.id === card.id);
+            // end loop if unique card found
+            if (!alreadyInHand) break;
+            attempts++;
+        }
+
+        if (!card || attempts >= maxAttempts) {
+            console.error("Failed to draw a unique card after multiple attempts.");
+            return;
+        }
+
         const newHand = [...playerHand, card];
         setPlayerHand(newHand);
-        
-        const playerValue = calculateHandValue(newHand)
 
-        if(playerValue > 21){
-            handleGameOver({type: "dealer", title: "Bust!", color: "danger", message: "Unlucky! Dealer Wins"})
-        } else if (playerValue === 21 && playerHand.length === 2 && dealerHand)
+        const playerValue = calculateHandValue(newHand);
 
-        console.log(playerValue)
-    }
+        if (playerValue > 21) {
+            handleGameOver({
+                type: "dealer",
+                title: "Bust!",
+                color: "danger",
+                message: "Unlucky! Dealer Wins"
+            });
+        }
+
+        console.log(playerValue);
+    };
+
 
     const dealerTurn = async () => {
 
         setDealerThinking(true);
 
         let currentHand = [...dealerHand];
-       // let currentHand = dealerHand
         let currentValueDealer = calculateHandValue(currentHand);
 
         // dealer draws until reaching at least 17
         while (currentValueDealer < 17) {
-            const [card] = drawCards(1);
+            let card;
+            let attempts = 0;
+            const maxAttempts = 10;
+
+            while (attempts < maxAttempts) {
+                [card] = drawCards(1);
+                const alreadyInHand = currentHand.some(c => c.id === card.id);
+                if (!alreadyInHand) break;
+                attempts++;
+            }
+
+            if (!card || attempts >= maxAttempts) {
+                console.error("Failed to draw a unique card for dealer after multiple attempts.");
+                break;
+            }
+
             currentHand = [...currentHand, card];
             setDealerHand(currentHand);
             currentValueDealer = calculateHandValue(currentHand);
+
             await new Promise(resolve => setTimeout(resolve, 800));
         }
 
@@ -98,7 +153,6 @@ function App() {
     };
 
     const setPlayerStand = () => {
-       // setGameOver(true)
         dealerTurn();
     }
 
@@ -142,10 +196,6 @@ function App() {
         setGameOver(true);
         setAlertInfo(result);
         setHasPlacedBet(false);
-
-        //const timeout = setTimeout(() => setGameResult(null), 800);
-        //return () => clearTimeout(timeout);
-        //setGameResult(null)
     };
 
     const resetGame = () => {
@@ -200,11 +250,21 @@ function App() {
             setNewGame(true);
         }
     };
+
+    useEffect(() => {
+        const updateSize = () => {
+            setIsSmallScreen(window.innerWidth < 768);
+        };
+        updateSize();
+        window.addEventListener("resize", updateSize);
+        return () => window.removeEventListener("resize", updateSize);
+    }, []);
+
     return (
     <div className="relative w-screen h-screen  flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
       {/* Central game container */}
       <MouseTrail />
-      <div id="game-container" className="blackjack-container overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl h-full md:h-[100%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col items-center md:p-6 p-2 gap-2 border-slate-600">
+      <div id="game-container" className={`blackjack-container flex flex-col ${!hasPlacedBet ? "justify-center items-center h-3/4 md:h-full" : "items-center"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl h-full md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md md:p-6 p-2 gap-2 border-slate-600`}>
         {/* Title 
         
         adjust stylng
@@ -213,18 +273,16 @@ function App() {
 
         {/* Alert bar */}
         {alertInfo && (
-          <div className="w-full flex flex-col items-center justify-center h-[30px] mt-[15px]">
             <AlertBar {...alertInfo} setAlertState={setAlertInfo} />
-          </div>
         )}
         {/* Balance */}
-        <div className={`flex flex-col items-center justify-center w-full md:mb-[20px] ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
+        <div className={`flex flex-col items-center justify-center w-full md:mt-[20px] ${hasPlacedBet ? "animate-slideUp " : !gameOver ? "animate-slideDown" : ""}`}>
           <PlayerBalance balance={playerBalance} result={gameResult} />
         </div>
 
         {/* Hands */}
         {(hasPlacedBet || gameOver) && (
-          <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-4 md:w-full xl:max-w-[60%] animate-fadeIn">
+          <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-0 md:w-full xl:max-w-[60%] animate-fadeIn">
             <Hand
               isDealer={false}
               cards={playerHand}
@@ -237,25 +295,29 @@ function App() {
               title={"Dealer Hand"}
               handValue={dealerValue}
             />
-          </div>
+            </div>
         )}
         {/* Action Buttons */}
-        <div className="flex justify-center gap-8">
+        <div className="w-full flex items-center justify-center mb-4">
           {hasPlacedBet && !gameOver ? (
-            <>
+            <div className="mt-8 flex flex-row flex-wrap items-center justify-center gap-8 md:mt-4 md:gap-12 w-full">
               <BlackjackButton
                 isDisabled={dealerThinking}
                 styling="primary"
                 text="Hit"
                 onClick={dealCardToPlayer}
+                size={isSmallScreen ? "lg" : "md"}
+                className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
               />
               <BlackjackButton
                 isDisabled={dealerThinking}
                 styling="danger"
                 text="Stand"
                 onClick={setPlayerStand}
+                size={isSmallScreen ? "lg" : "md"}
+                className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
               />
-            </>
+            </div>
           ) : (
             newGame &&
             gameOver && (
@@ -263,6 +325,8 @@ function App() {
                 styling="secondary"
                 text="New Round"
                 onClick={resetGame}
+                size="lg"
+                className={isSmallScreen ? "w-[90%] mt-4" : "w-[200px]"}
               />
             )
           )}
