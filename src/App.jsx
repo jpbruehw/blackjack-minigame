@@ -68,10 +68,7 @@ function App() {
                 message: "Unlucky! Dealer Wins"
             });
         }
-
-        console.log(playerValue);
     };
-
 
     const dealerTurn = async () => {
 
@@ -171,8 +168,7 @@ function App() {
         if (result.type === 'player') setGameResult('win');
         else if (result.type === 'dealer') setGameResult('loss');
         else if (result.type === 'push') setGameResult('push');
-        console.log("RES TYPE 0: ", result.type)
-        console.log("RES TYPE: ", gameResult)
+
         setGameOver(true);
         setAlertInfo(result);
         setHasPlacedBet(false);
@@ -241,84 +237,83 @@ function App() {
     }, []);
 
     return (
-    <div className="relative w-screen h-screen flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
-      {/* Central game container */}
-      <MouseTrail />
-      <div id="game-container" className={`blackjack-container flex flex-col justify-center items-center ${(isSmallScreen && !hasPlacedBet && !newGame) ? "max-h-[60%] animate-shrinkHeight md:animate-none md:h-full" : "animate-expandHeight md:animate-none"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl backdrop-blur-md md:p-6 p-2 gap-2 border-slate-600`}>
-                {/* Alert bar */}
-       
-           {alertInfo && (
-            <AlertBar {...alertInfo} setAlertState={setAlertInfo} className={isSmallScreen ? "mt-[50px]" : "mt-0"}/>
-        )}
-          <Header className={`${!newGame ? "animate-slideDown -mt-[40px] mb-4" : "animate-slideUp mt-0"} ${isSmallScreen}`} />
+            <div className="relative w-screen h-screen flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
+                <MouseTrail />
+                {/* Central game container */}
+                <div id="game-container" className={`blackjack-container transform-gpu flex flex-col justify-center items-center ${(isSmallScreen && !hasPlacedBet && !newGame) ? "h-[60%] animate-shrinkHeight md:animate-none md:h-full" : "animate-expandHeight md:animate-none"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl md:p-6 p-2 gap-2 border-slate-600`}>
+                    {/* Alert bar */} 
+                    {alertInfo && (
+                        <AlertBar {...alertInfo} setAlertState={setAlertInfo} className={isSmallScreen ? "mt-[50px]" : "mt-0"}/>
+                    )}
 
-        {/* Balance */}
-        <div className={`flex flex-col items-center justify-center w-full ${(!isSmallScreen && !hasPlacedBet && !gameOver)? "mb-8" : "mb-0"} ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
-          <PlayerBalance balance={playerBalance} result={gameResult} />
-        </div>
+                    <Header className={`${!newGame ? "animate-slideDown -mt-[40px] mb-4" : "animate-slideUp mt-0"} ${isSmallScreen}`} />
 
-        {/* Hands */}
-        {(hasPlacedBet || gameOver) && (
-          <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-0 md:w-full xl:max-w-[60%] animate-fadeIn">
-            <Hand
-              isDealer={false}
-              cards={playerHand}
-              title={"Your Hand"}
-              handValue={playerValue}
-            />
-            <Hand
-              isDealer={true}
-              cards={dealerHand}
-              title={"Dealer Hand"}
-              handValue={dealerValue}
-            />
+                    {/* Balance */}
+                    <div className={`flex flex-col items-center justify-center w-full ${(!isSmallScreen && !hasPlacedBet && !gameOver)? "mb-8" : "mb-0"} ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
+                        <PlayerBalance balance={playerBalance} result={gameResult} />
+                    </div>
+
+                    {/* Hands */}
+                    {(hasPlacedBet || gameOver) && (
+                        <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-0 md:w-full xl:max-w-[60%] animate-fadeIn">
+                            <Hand
+                                isDealer={false}
+                                cards={playerHand}
+                                title={"Your Hand"}
+                                handValue={playerValue}
+                            />
+                            <Hand
+                                isDealer={true}
+                                cards={dealerHand}
+                                title={"Dealer Hand"}
+                                handValue={dealerValue}
+                            />
+                        </div>
+                    )}
+
+                   {/* Action Buttons */}
+                    <div className="w-full flex items-center justify-center">
+                        {hasPlacedBet && !gameOver ? (
+                            <div className="mt-8 flex flex-row flex-wrap items-center justify-center gap-8 md:mt-4 md:gap-12 w-full">
+                                <BlackjackButton
+                                    isDisabled={dealerThinking}
+                                    styling="primary"
+                                    text="Hit"
+                                    onClick={dealCardToPlayer}
+                                    size={isSmallScreen ? "lg" : "md"}
+                                    className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
+                                />
+                                <BlackjackButton
+                                    isDisabled={dealerThinking}
+                                    styling="danger"
+                                    text="Stand"
+                                    onClick={setPlayerStand}
+                                    size={isSmallScreen ? "lg" : "md"}
+                                    className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
+                                />
+                            </div>
+                        ) : (
+                            (newGame && gameOver) && (
+                                <BlackjackButton
+                                    styling="secondary"
+                                    text="New Round"
+                                    onClick={resetGame}
+                                    size="lg"
+                                    className={isSmallScreen ? "w-[90%] mt-6 mb-4" : "w-[200px]"}
+                                />
+                            )
+                        )}
+                    </div>
+
+                    {/* Betting Input */}
+                    {!hasPlacedBet && !gameOver && (
+                        <div className="w-full flex justify-center mt-[5vh] animate-slideUp">
+                            <BetInput placeBet={placeBet} playerBalance={playerBalance} />
+                        </div>
+                    )}
+                </div>
             </div>
-        )}
-        {/* Action Buttons */}
-        <div className="w-full flex items-center justify-center">
-          {hasPlacedBet && !gameOver ? (
-            <div className="mt-8 flex flex-row flex-wrap items-center justify-center gap-8 md:mt-4 md:gap-12 w-full">
-              <BlackjackButton
-                isDisabled={dealerThinking}
-                styling="primary"
-                text="Hit"
-                onClick={dealCardToPlayer}
-                size={isSmallScreen ? "lg" : "md"}
-                className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
-              />
-              <BlackjackButton
-                isDisabled={dealerThinking}
-                styling="danger"
-                text="Stand"
-                onClick={setPlayerStand}
-                size={isSmallScreen ? "lg" : "md"}
-                className={isSmallScreen ? "w-[40%]" : "w-[150px]"}
-              />
-            </div>
-          ) : (
-            newGame &&
-            gameOver && (
-              <BlackjackButton
-                styling="secondary"
-                text="New Round"
-                onClick={resetGame}
-                size="lg"
-                className={isSmallScreen ? "w-[90%] mt-6 mb-4" : "w-[200px]"}
-              />
-            )
-          )}
-        </div>
-
-
-        {/* Betting Input */}
-        {!hasPlacedBet && !gameOver && (
-          <div className="w-full flex justify-center mt-[5vh] animate-slideUp">
-            <BetInput placeBet={placeBet} playerBalance={playerBalance} />
-          </div>
-        )}
-      </div>
-    </div>
-  );
+    );   
 }
 
 export default App

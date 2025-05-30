@@ -74,7 +74,7 @@ export default {
         },
         shrinkHeight: {
           '0%': { height: '100%' },
-          '100%': { height: '70%' },
+          '100%': { height: '60%' },
         }
       },
       animation: {
