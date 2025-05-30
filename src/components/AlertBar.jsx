@@ -1,16 +1,16 @@
 import { Alert } from "@heroui/alert";
 import { useState } from "react";
 
-export default function AlertBar({ color, message, title, setAlertState }){
+export default function AlertBar({ color, message, title, setAlertState, className }){
     const [isVisible, setIsVisible] = useState(true)
 
     const handleClose = () => {
-        setAlertState(null)
         setIsVisible(false)
+        setAlertState(null)
     }
 
     return (
-        <div className={`w-full mb-2 md:w-[60%] md:mb-0 flex flex-col items-center justify-center h-[50px] ${isVisible && "animate-slideIn"}`}>
+        <div className={`w-[90%] md:w-[60%] flex flex-col items-center justify-center ${isVisible && "animate-slideIn"} ${className}`}>
             <Alert 
                 color={color}
                 description={message}

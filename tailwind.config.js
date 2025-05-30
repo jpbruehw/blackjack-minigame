@@ -57,7 +57,7 @@ export default {
           "100%": { opacity: "0" },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '0%': { opacity: '0', transform: 'translateY(40px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         slideDown: {
@@ -67,6 +67,14 @@ export default {
         slideIn: {
           '0%': { transform: 'translateY(-20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        expandHeight: {
+          '0%': { height: '70%' },
+          '100%': { height: '100%' },
+        },
+        shrinkHeight: {
+          '0%': { height: '100%' },
+          '100%': { height: '70%' },
         }
       },
       animation: {
@@ -76,11 +84,13 @@ export default {
         lossShake: 'winShake 0.15s ease-in-out infinite',
         bgSwoosh: 'bgSwoosh 1s ease-in-out',
         fadeIn: "fadeIn 1.5s ease-in forwards",
-        fadeOut: "fadeOut 1.5s ease-in forwards",
+        fadeOut: "fadeOut 1.5s ease-out forwards",
         slideUp: "slideUp 0.75s ease-in forwards",
         slideDown: "slideDown 0.5s ease-in forwards",
         slideIn: 'slideIn 0.3s ease-in forwards',
         fastFadeOut: "fadeOut 0.5s ease-in forwards",
+        expandHeight: 'expandHeight 0.35s ease-in forwards',
+        shrinkHeight: 'shrinkHeight 0.35s ease-in forwards'
       },
     },
   },

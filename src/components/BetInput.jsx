@@ -14,7 +14,7 @@ export default function BetInput({ placeBet, playerBalance }) {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center w-full md:w-[350px] border-slate-500 border-4 gap-4 rounded-md p-4 bg-white/90 shadow-lg">
+        <div className="flex flex-col justify-center items-center w-[90%] md:w-[350px] border-slate-500 border-4 gap-4 rounded-md p-4 bg-white/90 shadow-lg">
             <Input
                 label="Enter Bet"
                 type="number"

@@ -56,8 +56,8 @@ const MouseTrail = () => {
             let y = mouse.y;
 
             dots.forEach((dot) => {
-                dot.x += (x - dot.x) * 0.1;
-                dot.y += (y - dot.y) * 0.1;
+                dot.x += (x - dot.x) * 0.5;
+                dot.y += (y - dot.y) * 0.5;
                 dot.draw();
                 x = dot.x;
                 y = dot.y;
@@ -89,7 +89,7 @@ const MouseTrail = () => {
             dots.forEach(dot => dot.node.remove());
         };
     }, [enabled]);
-    // return null since we are not actually returing a dom element
+    // return null since we are not actually returning a dom element
     return null;
 };
 

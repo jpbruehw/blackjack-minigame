@@ -26,7 +26,7 @@ export default function PlayerBalance({ balance, result }) {
         win: "border-4 border-green-900",
         loss: "border-4 border-red-900",
         push: "border-4 border-blue-900",
-        default: "border-2 border-slate-500",
+        default: "border-4 border-slate-500",
     };
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function PlayerBalance({ balance, result }) {
 
     return (
         <div
-            className={`flex flex-col justify-center items-center rounded-md h-[70px] w-[100%] md:w-[200px] shadow-md
+            className={`flex flex-col justify-center items-center rounded-md h-[70px] w-[90%] md:w-[350px] shadow-md
             ${bgColors[result] || bgColors.default} 
             ${borderColors[result] || borderColors.default} 
             ${resultAnimation}`}
