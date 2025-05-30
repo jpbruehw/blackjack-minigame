@@ -65,7 +65,7 @@ function App() {
                 type: "dealer",
                 title: "Bust!",
                 color: "danger",
-                message: "Unlucky! Dealer Wins"
+                message: "Unlucky! Dealer Wins."
             });
         }
     };
@@ -112,15 +112,15 @@ function App() {
                 handleGameOver({ type: "dealer", title: "Blackjack!", color: "danger", message: "Dealer has Blackjack. You lose." });
             }
         } else if (playerHasBlackjack) {
-            handleGameOver({ type: "player", title: "Blackjack!", color: "success", message: "Blackjack! You win." });
+            handleGameOver({ type: "player", title: "Blackjack!", color: "success", message: "Congratulations! You win with Blackjack!" });
         } else if (currentValueDealer > 21) {
-            handleGameOver({ type: "player", title: "Dealer Bust", color: "success", message: "Bust! Player Wins" });
+            handleGameOver({ type: "player", title: "Dealer Bust", color: "success", message: "Bust! You win." });
         } else {
             // regular comparison
             if (currentValueDealer > playerValue) {
                 handleGameOver({ type: "dealer", title: "House Wins", color: "danger", message: "Unlucky! Dealer wins." });
             } else if (currentValueDealer < playerValue) {
-                handleGameOver({ type: "player", title: "You win!", color: "success", message: "Player wins!" });
+                handleGameOver({ type: "player", title: "You win!", color: "success", message: "You win!" });
             } else {
                 handleGameOver({ type: "push", title: "Push", color: "primary", message: "It's a tie!" });
             }
@@ -203,9 +203,8 @@ function App() {
             const isFaceCard = ["10", "J", "Q", "K"].includes(dealerRank);
             const isAce = dealerRank === "A";
 
-            // Natural blackjack and dealer does NOT have a threatening upcard
+            // natural blackjack and dealer does NOT have a threatening upcard
             if (playerValue === 21 && !isFaceCard && !isAce) {
-                console.log("I GOT HERE")
                 handleGameOver({
                     type: "player",
                     title: "Blackjack!",
