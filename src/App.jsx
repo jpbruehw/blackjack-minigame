@@ -240,7 +240,7 @@ function App() {
             <div className="relative w-screen h-screen flex items-center justify-center py-[3vh] bg-gradient-to-br from-slate-900 to-slate-800">
                 <MouseTrail />
                 {/* Central game container */}
-                <div id="game-container" className={`blackjack-container transform-gpu flex flex-col justify-center items-center ${(isSmallScreen && !hasPlacedBet && !newGame) ? "h-[60%] animate-shrinkHeight md:animate-none md:h-full" : "animate-expandHeight md:animate-none"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] md:w-[70%] max-w-5xl md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl md:p-6 p-2 gap-2 border-slate-600`}>
+                <div id="game-container" className={`blackjack-container transform-gpu flex flex-col justify-center items-center ${(isSmallScreen && !hasPlacedBet && !newGame) ? "animate-shrinkHeight md:animate-none md:h-full" : "animate-expandHeight md:animate-none"} overflow-y-auto lg:overflow-y-hidden overflow-x-hidden w-[90%] max-h-[900px] max-w-5xl md:h-[100%] 2xl:h-[85%] xxl:max-h-[60%] bg-slate-600/70 rounded-2xl shadow-2xl md:p-6 p-2 gap-2 border-slate-600`}>
                     {/* Alert bar */} 
                     {alertInfo && (
                         <AlertBar {...alertInfo} setAlertState={setAlertInfo} className={isSmallScreen ? "mt-[50px]" : "mt-0"}/>
@@ -255,7 +255,7 @@ function App() {
 
                     {/* Hands */}
                     {(hasPlacedBet || gameOver) && (
-                        <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-between md:items-center mt-2 md:mt-0 md:w-full xl:max-w-[60%] animate-fadeIn">
+                        <div className="w-full flex flex-col-reverse items-start justify-center md:flex-row md:justify-center md:gap-8 xl:justify-around md:items-center mt-2 md:mt-0 md:w-full xl:max-w-[60%] animate-fadeIn">
                             <Hand
                                 isDealer={false}
                                 cards={playerHand}
