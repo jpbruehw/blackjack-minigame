@@ -249,7 +249,7 @@ function App() {
                     <Header className={`${!newGame ? "animate-slideDown -mt-[40px] mb-4" : "animate-slideUp mt-0"} ${isSmallScreen}`} />
 
                     {/* Balance */}
-                    <div className={`flex flex-col items-center justify-center w-full ${(!isSmallScreen && !hasPlacedBet && !gameOver)? "mb-8" : "mb-0"} ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
+                    <div className={`flex flex-col items-center justify-center w-full ${hasPlacedBet ? "animate-slideUp" : !gameOver ? "animate-slideDown" : ""}`}>
                         <PlayerBalance balance={playerBalance} result={gameResult} />
                     </div>
 
@@ -307,7 +307,7 @@ function App() {
 
                     {/* Betting Input */}
                     {!hasPlacedBet && !gameOver && (
-                        <div className="w-full flex justify-center mt-[5vh] animate-slideUp">
+                        <div className="w-full flex justify-center mt-[4vh] animate-slideUp">
                             <BetInput placeBet={placeBet} playerBalance={playerBalance} />
                         </div>
                     )}
