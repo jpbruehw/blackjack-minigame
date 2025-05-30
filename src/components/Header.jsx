@@ -1,4 +1,5 @@
 import { Image } from "@heroui/image";
+import headerImg from "/header.svg"
 
 const Header = ({ className }) => {
     return (
@@ -6,8 +7,7 @@ const Header = ({ className }) => {
             <Image 
                 isBlurred
                 alt="Blackjack Game Header"
-                src="/header.svg"
-                //width={200}
+                src={headerImg}
             />
         </div>
     )
